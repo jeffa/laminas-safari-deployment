@@ -1,7 +1,7 @@
 diff --git a/module/Application/src/Model/ModelPhpMailer.php b/module/Application/src/Model/ModelPhpMailer.php
 --- a/module/Application/src/Model/ModelPhpMailer.php
 +++ b/module/Application/src/Model/ModelPhpMailer.php
-@@ -491,7 +491,19 @@
+@@ -491,7 +491,27 @@
 -        $transport->Host       = EMAIL_SERVER_NAME;              //Set the SMTP server to send through
 +        $serverHost = defined('EMAIL_SERVER_HOST') && EMAIL_SERVER_HOST !== ''
 +            ? EMAIL_SERVER_HOST
@@ -23,6 +23,14 @@ diff --git a/module/Application/src/Model/ModelPhpMailer.php b/module/Applicatio
 +            ? PHPMailer::ENCRYPTION_STARTTLS
 +            : PHPMailer::ENCRYPTION_SMTPS;
 +        $transport->Port       = $serverPort;
++
++        // PHPMailer uses these settings on its main instance when opening the connection.
++        $this->mail->Host       = $serverHost;
++        $this->mail->SMTPAuth   = true;
++        $this->mail->Username   = $this->userName;
++        $this->mail->Password   = $this->password;
++        $this->mail->SMTPSecure = $transport->SMTPSecure;
++        $this->mail->Port       = $serverPort;
 
 diff --git a/module/Application/src/Model/ModelPhpMailer.php b/module/Application/src/Model/ModelPhpMailer.php
 --- a/module/Application/src/Model/ModelPhpMailer.php
