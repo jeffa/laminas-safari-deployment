@@ -17,6 +17,15 @@ The following workflow has been tested successfully from a clean start:
 
 This should be preserved as the known-good development baseline before introducing production infrastructure.
 
+## Experimental SMTP branch follow-up
+
+The deployment patch now sends password-reset mail successfully through cPanel SMTP. Before merging this branch:
+
+- [ ] Apply the confirmed PHPMailer connection fix to the Laminas application source in DEV.
+- [ ] Validate password-reset delivery in DEV using the source change.
+- [ ] Remove the corresponding deployment patch hunk after the source change is released.
+- [ ] Include the validated email change in the next production deployment cycle.
+
 ## Phase 1: Freeze the working baseline
 
 Commit the successful deployment changes and create a Git tag, for example:
@@ -236,4 +245,3 @@ The next practical milestones are:
 8. Add ALB and HTTPS after the application can run correctly without local MariaDB state or local uploaded files.
 
 The most important architectural rule is: **do not attempt multiple production application copies until the database, sessions, uploads, and other writable state are shared or externalized.**
-

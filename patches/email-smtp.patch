@@ -1,0 +1,69 @@
+diff --git a/module/Application/src/Model/ModelPhpMailer.php b/module/Application/src/Model/ModelPhpMailer.php
+--- a/module/Application/src/Model/ModelPhpMailer.php
++++ b/module/Application/src/Model/ModelPhpMailer.php
+@@ -491,7 +491,27 @@
+-        $transport->Host       = EMAIL_SERVER_NAME;              //Set the SMTP server to send through
++        $serverHost = defined('EMAIL_SERVER_HOST') && EMAIL_SERVER_HOST !== ''
++            ? EMAIL_SERVER_HOST
++            : EMAIL_SERVER_NAME;
++        $serverPort = defined('EMAIL_SERVER_PORT') && EMAIL_SERVER_PORT !== ''
++            ? (int) EMAIL_SERVER_PORT
++            : 465;
++        $serverEncryption = defined('EMAIL_SERVER_ENCRYPTION')
++            ? strtolower((string) EMAIL_SERVER_ENCRYPTION)
++            : 'ssl';
++
++        $transport->Host       = $serverHost;                    //Set the SMTP server to send through
+         $transport->SMTPAuth   = true;                           //Enable SMTP authentication
+         $transport->Username   = $this->userName;                //SMTP username
+         $transport->Password   = $this->password;                //SMTP password
+-        $transport->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;    //Enable implicit TLS encryption
+-        $transport->Port       = 25;                             //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
++        $transport->SMTPSecure = in_array($serverEncryption, ['tls', 'starttls'], true)
++            ? PHPMailer::ENCRYPTION_STARTTLS
++            : PHPMailer::ENCRYPTION_SMTPS;
++        $transport->Port       = $serverPort;
++
++        // PHPMailer uses these settings on its main instance when opening the connection.
++        $this->mail->Host       = $serverHost;
++        $this->mail->SMTPAuth   = true;
++        $this->mail->Username   = $this->userName;
++        $this->mail->Password   = $this->password;
++        $this->mail->SMTPSecure = $transport->SMTPSecure;
++        $this->mail->Port       = $serverPort;
+
+diff --git a/module/Application/src/Model/ModelPhpMailer.php b/module/Application/src/Model/ModelPhpMailer.php
+--- a/module/Application/src/Model/ModelPhpMailer.php
++++ b/module/Application/src/Model/ModelPhpMailer.php
+@@ -475,6 +475,16 @@
+ 
+     }
+ 
++    /**
++     * Return the most recent PHPMailer error, if any.
++     *
++     * @return string
++     */
++    public function getErrorMsg()
++    {
++        return $this->errMsg;
++    }
++    
+     /**
+      * Setup the SMTP transport using PLAIN authentication over TLS
+      */
+diff --git a/module/Application/src/Model/ModelAccounts.php b/module/Application/src/Model/ModelAccounts.php
+--- a/module/Application/src/Model/ModelAccounts.php
++++ b/module/Application/src/Model/ModelAccounts.php
+@@ -220,7 +220,12 @@
+         $this->_mailer->setSubject('Password reset link requested.');
+         $this->_mailer->setTextBody($this->buildResetText($tokenUrl));
+         $this->_mailer->setHtmlBody($this->buildResetHtml($tokenUrl));
+-        return $this->_mailer->send();
++        $sent = $this->_mailer->send();
++        if (!$sent) {
++            $this->_errMsg = 'Unable to send password reset email: '
++                . $this->_mailer->getErrorMsg();
++        }
++        return $sent;
+     }

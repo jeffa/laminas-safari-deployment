@@ -21,6 +21,7 @@ required_files=(
     compose.build.yaml
     apache-vhost.conf
     .env.example
+    patches/email-smtp.patch
     runtime-config/local.php
     input/laminas-app.tar.gz
     input/horsesns_safari-dev.sql.gz
@@ -52,6 +53,7 @@ scp \
 echo "Copying scripts, runtime configuration, and payloads..."
 scp -r \
     "$project_dir/bin" \
+    "$project_dir/patches" \
     "$project_dir/runtime-config" \
     "$project_dir/input" \
     "$target:$remote_dir/"
