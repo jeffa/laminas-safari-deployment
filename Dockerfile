@@ -13,6 +13,8 @@ RUN apt-get update \
         libpng-dev \
         libxml2-dev \
         libzip-dev \
+        ca-certificates \
+        patch \
         unzip \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j"$(nproc)" \
@@ -34,8 +36,11 @@ COPY apache-vhost.conf /etc/apache2/sites-available/000-default.conf
 WORKDIR /var/www/html
 COPY app/ /var/www/html/
 COPY runtime-config/local.php /var/www/html/config/autoload/local.php
+COPY patches/email-smtp.patch /tmp/email-smtp.patch
 
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader \
+    && patch -p1 < /tmp/email-smtp.patch \
+    && rm -f /tmp/email-smtp.patch \
     && mkdir -p data/cache \
     && ln -s /var/www/html/module/Application/src/Controller/Helper/PHPMailer /var/www/html/PHPMailer \
     && ln -s /var/www/html/assets /var/www/html/public/assets \
