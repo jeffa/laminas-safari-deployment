@@ -59,3 +59,15 @@ revision explicitly with `GIT_COMMIT=<full-sha>`.
 The GitHub Actions workflow is manually dispatched because the application source
 and payloads are intentionally excluded from Git. It accepts a short-lived source
 archive URL and its SHA-256 checksum, then performs the same amd64/arm64 build.
+
+The workflow authenticates to the private Amazon ECR repository using GitHub
+Actions OIDC and publishes only the immutable Git commit SHA tag:
+
+```text
+767397722370.dkr.ecr.us-east-1.amazonaws.com/laminas-safari:<commit-sha>
+```
+
+Before dispatching it, provide a short-lived URL for `input/laminas-app.tar.gz`
+and its SHA-256 checksum. The workflow does not require AWS access keys in GitHub.
+The IAM policy documents used to recreate the publisher role are in
+`docs/aws/`.
