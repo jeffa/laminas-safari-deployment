@@ -7,4 +7,13 @@ vendor/
 deploy.log
 .DS_Store
 
+# Terraform state and local working data
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfvars
+*.tfvars.json
+
 *.tmp
