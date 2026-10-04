@@ -1,1 +1,9 @@
+.env
 input/
+app/
+vendor/
+*.log
+.db-restored
+deploy.log
+.DS_Store
+
