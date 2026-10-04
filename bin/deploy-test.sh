@@ -16,6 +16,7 @@ fi
 
 required_files=(
     Dockerfile
+    .dockerignore
     compose.yaml
     compose.build.yaml
     apache-vhost.conf
@@ -41,6 +42,7 @@ ssh "$target" "mkdir -p -- '$remote_dir'"
 echo "Copying deployment configuration..."
 scp \
     "$project_dir/Dockerfile" \
+    "$project_dir/.dockerignore" \
     "$project_dir/compose.yaml" \
     "$project_dir/compose.build.yaml" \
     "$project_dir/apache-vhost.conf" \

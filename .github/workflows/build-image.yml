@@ -1,0 +1,58 @@
+name: Build Laminas application image
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_archive_url:
+        description: Short-lived URL for the ignored Laminas source archive
+        required: true
+        type: string
+      source_archive_sha256:
+        description: SHA-256 checksum of the source archive
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out deployment configuration
+        uses: actions/checkout@v6
+
+      - name: Download and verify source archive
+        env:
+          SOURCE_ARCHIVE_URL: ${{ inputs.source_archive_url }}
+          SOURCE_ARCHIVE_SHA256: ${{ inputs.source_archive_sha256 }}
+        run: |
+          set -Eeuo pipefail
+          [[ "$SOURCE_ARCHIVE_SHA256" =~ ^[0-9a-fA-F]{64}$ ]]
+          archive="$RUNNER_TEMP/laminas-app.tar.gz"
+          curl --fail --location --silent --show-error \
+            --output "$archive" "$SOURCE_ARCHIVE_URL"
+          printf '%s  %s\n' "$SOURCE_ARCHIVE_SHA256" "$archive" | sha256sum --check --strict
+          mkdir -p app
+          tar -xzf "$archive" -C app --strip-components=1
+          test -f app/composer.json
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build both application architectures
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64,linux/arm64
+          tags: laminas-safari:${{ github.sha }}
+          push: false
+          provenance: mode=max
+          sbom: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+

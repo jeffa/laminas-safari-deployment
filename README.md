@@ -33,3 +33,29 @@ ignored by Git.
 For the temporary EC2 test workflow, set `EC2_USER` and `EC2_HOST`, then run
 `bash bin/deploy-test.sh`. It copies the deployment files and ignored payloads,
 but never copies `.env` or the extracted application source.
+
+## Multi-architecture builds
+
+After extracting the source into `app/`, maintainers can build both target
+architectures locally:
+
+```bash
+bash bin/build-multiarch.sh
+```
+
+By default this validates the build into the BuildKit cache without publishing.
+Set `BUILD_OUTPUT=/tmp/laminas-safari.oci.tar` if an OCI archive is needed. Set
+`IMAGE_REPOSITORY` and `PUSH=1` after authenticating to a registry to publish a
+multi-architecture image tagged with the full Git commit:
+
+```bash
+IMAGE_REPOSITORY=registry.example/laminas-safari PUSH=1 \
+  bash bin/build-multiarch.sh
+```
+
+When running from a deployment copy without `.git`, provide the checked-in
+revision explicitly with `GIT_COMMIT=<full-sha>`.
+
+The GitHub Actions workflow is manually dispatched because the application source
+and payloads are intentionally excluded from Git. It accepts a short-lived source
+archive URL and its SHA-256 checksum, then performs the same amd64/arm64 build.

@@ -1,10 +1,10 @@
+.git
 .env
 input/
-app/
-vendor/
 *.log
+*.tmp
 .db-restored
 deploy.log
-.DS_Store
+app/.git
+app/vendor
 
-*.tmp
