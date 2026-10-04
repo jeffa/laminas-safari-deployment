@@ -33,6 +33,7 @@ COPY apache-vhost.conf /etc/apache2/sites-available/000-default.conf
 
 WORKDIR /var/www/html
 COPY app/ /var/www/html/
+COPY runtime-config/local.php /var/www/html/config/autoload/local.php
 
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader \
     && mkdir -p data/cache \

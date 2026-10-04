@@ -40,8 +40,6 @@ services:
       CORPORATE_EMAIL_NAME: ${CORPORATE_EMAIL_NAME:-}
       RECAPTCHA_SITE_KEY: ${RECAPTCHA_SITE_KEY:-}
       RECAPTCHA_SECRET_KEY: ${RECAPTCHA_SECRET_KEY:-}
-    volumes:
-      - ./runtime-config/local.php:/var/www/html/config/autoload/local.php:ro
     healthcheck:
       test: ["CMD", "php", "-r", "$$s=@fsockopen('127.0.0.1',80); exit($$s ? 0 : 1);"]
       interval: 5s
@@ -51,4 +49,3 @@ services:
 
 volumes:
   db-data:
-

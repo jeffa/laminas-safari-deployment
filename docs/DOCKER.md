@@ -1,18 +1,36 @@
-# Laminas application on Docker: disposable EC2 lab
+# Laminas Safari application on Docker
 
-This guide uses the existing EC2 laboratory to run a Laminas/PHP application and MariaDB for short-lived testing. Terraform creates the Ubuntu instance, Ansible installs Docker, and Docker Compose runs the application and database.
+This guide covers the Docker-based Laminas application stack in this repository.
+The normal workflow pulls a prebuilt image; maintainers can build locally with the
+Compose build override. The included `bin/run-local.sh` command performs the full
+source-build workflow against disposable local services.
 
 The intended flow is:
 
 ```text
-Terraform → Ubuntu EC2 → Ansible installs Docker
-                         ↓
-              Docker Compose: app + MariaDB
-                         ↓
-              restore source tarball + database dump
+source payload → Docker build → Compose: app + MariaDB
+                                      ↓
+                             restore development dump
 ```
 
-This is a test environment, not a production deployment. Do not expose MariaDB publicly, do not commit secrets, and destroy the instance when the test is complete.
+This is a disposable development workflow, not a production deployment. Do not
+expose MariaDB publicly or commit secrets.
+
+## Repository quick start
+
+From the project root, create `.env`, confirm its database passwords, and run:
+
+```bash
+cp .env.example .env
+bash bin/run-local.sh
+```
+
+The script extracts `input/laminas-app.tar.gz` into ignored `app/`, builds with
+`compose.build.yaml`, waits for MariaDB, restores
+`input/horsesns_safari-dev.sql.gz` when `tblSessions` is absent, starts Apache,
+clears the Laminas config cache, and verifies HTTP plus Composer requirements.
+The environment-driven `runtime-config/local.php` is included in the image, so a
+host-side runtime configuration bind mount is not required.
 
 ## Before starting
 
@@ -190,7 +208,7 @@ chmod 600 .env
 From `~/laminas-lab`:
 
 ```bash
-docker compose build
+docker compose -f compose.yaml -f compose.build.yaml build app
 docker compose up -d
 docker compose ps
 docker compose logs -f app

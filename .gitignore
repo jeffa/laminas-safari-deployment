@@ -6,4 +6,4 @@ vendor/
 .db-restored
 deploy.log
 .DS_Store
-
+*.tmp
