@@ -62,6 +62,5 @@ echo "Next steps on the EC2 instance:"
 echo "  cd '$remote_dir'"
 echo "  cp .env.example .env"
 echo "  chmod 600 .env"
-echo "  nano .env"
+echo "  vi .env"
 echo "  bash bin/run-local.sh"
-
