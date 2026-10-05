@@ -7,6 +7,13 @@ This is a developer onboarding workflow. It does not require the developer to
 build or publish images, access EC2, or receive AWS credentials that can modify
 infrastructure.
 
+## Related AWS access guide
+
+If AWS read-only ECR access has not yet been created, follow the [Developer AWS
+Access Setup](DEVELOPER_AWS_ACCESS_SETUP.md) guide first. It explains how the
+AWS administrator creates the developer’s sign-in and assigns permission to
+pull the private image.
+
 ## Required access and files
 
 Before beginning, request the following from the project maintainer or AWS

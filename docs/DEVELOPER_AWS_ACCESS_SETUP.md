@@ -3,8 +3,8 @@
 This guide creates a safe, read-only AWS sign-in for a developer who needs to
 pull the Laminas Safari Docker image into Docker Desktop.
 
-It is intended to be used with
-`docs/DEVELOPER_DOCKER_DESKTOP_SETUP.md`. Developers do not need permission to
+It is intended to be used with the [Developer Docker Desktop Setup](DEVELOPER_DOCKER_DESKTOP_SETUP.md)
+guide. Developers do not need permission to
 publish images, change EC2, modify databases, or administer AWS.
 
 ## What the administrator creates
@@ -130,8 +130,8 @@ aws sso login --profile laminas-safari-dev
 AWS_PROFILE=laminas-safari-dev aws sts get-caller-identity
 ```
 
-Then continue with the ECR login and Docker Desktop instructions in
-`docs/DEVELOPER_DOCKER_DESKTOP_SETUP.md`.
+Then continue with the ECR login and Docker Desktop instructions in the
+[Developer Docker Desktop Setup](DEVELOPER_DOCKER_DESKTOP_SETUP.md) guide.
 
 ## What must never be committed
 
