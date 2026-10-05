@@ -22,15 +22,42 @@ docs/aws/developer-access-settings.json
 That file contains identifiers and configuration names only. It must not contain
 passwords, access keys, invitation links, or secret values.
 
+## Console orientation
+
+This guide uses **IAM Identity Center**. Do not use the separate **IAM** service
+menus for this setup. In particular, do not create an ordinary IAM user and do
+not select an option named **Provide user access to the AWS Management Console**.
+That is a different credential model.
+
+The workflow has three separate objects:
+
+1. An IAM Identity Center user, which is the person who signs in.
+2. A permission set, which describes what that person may do.
+3. An assignment connecting the user and permission set to AWS account
+   `767397722370`.
+
+AWS presents several policy and access choices on these screens. Use only the
+choices explicitly identified below; leave the other choices empty.
+
 ## Enable IAM Identity Center
 
 1. Sign in to the AWS Console with an administrator identity.
-2. Open **IAM Identity Center** in the same AWS region used by the project.
+2. Open **IAM Identity Center** in the AWS region used by the project,
+   preferably `us-east-1` for this setup.
 3. Choose **Enable**.
-4. For this single-account development setup, choose **Enable an account
-   instance** if AWS presents that choice.
-5. Wait for the service to finish enabling.
-6. On the IAM Identity Center dashboard, copy the **AWS access portal URL**.
+4. If AWS asks which type of instance to create, choose an **organization
+   instance**. We need permission sets so the developer can sign in to the AWS
+   account and pull from ECR with the AWS CLI. An account instance is not the
+   correct choice for this workflow.
+5. If AWS asks for an instance name, use:
+
+   ```text
+   BridgeTechDynamics AWS
+   ```
+
+   This is only a display label and is not a password or credential.
+6. Wait for the service to finish enabling.
+7. On the IAM Identity Center dashboard, copy the **AWS access portal URL**.
 
 The URL normally resembles:
 
@@ -38,13 +65,14 @@ The URL normally resembles:
 https://d-xxxxxxxxxx.awsapps.com/start
 ```
 
-Record that URL in the local project data file under `sso_start_url`. The URL
+Record that URL in the project data file
+`docs/aws/developer-access-settings.json` under `sso_start_url`. The URL
 is an identifier, not a password, but do not place invitation links or temporary
 activation tokens in the repository.
 
-AWS documents the account-instance setup here:
+AWS documents IAM Identity Center instance choices here:
 
-<https://docs.aws.amazon.com/singlesignon/latest/userguide/enable-identity-center.html>
+<https://docs.aws.amazon.com/singlesignon/latest/userguide/identity-center-instances.html>
 
 ## Create or select the developer user
 
@@ -57,9 +85,13 @@ test.
 2. If your developer user already exists, select it. Otherwise choose **Add
    user**.
 3. Enter the developer’s business email address and display name.
-4. Send the invitation email when prompted.
-5. The developer must accept the invitation and set their own password through
+4. Leave group membership empty for this single-user setup. Groups are useful
+   later when several developers need identical access.
+5. Send the invitation email when prompted.
+6. The developer must accept the invitation and set their own password through
    the AWS access portal.
+7. Complete MFA enrollment when AWS requests it. An existing phone
+   authenticator application is an acceptable **Authenticator app** choice.
 
 Do not share administrator passwords or create a shared developer account.
 
@@ -74,13 +106,16 @@ Do not share administrator passwords or create a shared developer account.
    LaminasDeveloperEcrPull
    ```
 
-5. Add the inline policy from:
+5. On the permissions screen, use **Inline policy** and add the policy from:
 
    ```text
    docs/aws/ecr-puller-permissions-policy.json
    ```
 
-6. Create the permission set.
+   Leave **AWS managed policies**, **Customer managed policies**, and
+   **Permissions boundary** empty.
+6. Choose **Create** to finish creating the permission set. Confirm it appears
+   under **Permission sets** before continuing.
 
 This permission set permits authentication and image pulls only from the
 project’s private ECR repository.
@@ -91,8 +126,10 @@ project’s private ECR repository.
 2. Select account `767397722370`.
 3. Choose **Assign users or groups**.
 4. Select the developer user.
-5. Select `LaminasDeveloperEcrPull`.
-6. Submit the assignment.
+5. Choose **Next**. The permission-set screen appears after the user-selection
+   screen; selecting the user alone does not complete the assignment.
+6. Select `LaminasDeveloperEcrPull`.
+7. Choose **Next** or **Submit**, depending on the button shown.
 
 The developer can now use the AWS access portal and AWS CLI with temporary
 credentials.

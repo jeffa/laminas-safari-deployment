@@ -6,5 +6,5 @@
   "permission_set_name": "LaminasDeveloperEcrPull",
   "aws_cli_profile": "laminas-safari-dev",
   "sso_session_name": "business-aws",
-  "sso_start_url": "REPLACE_WITH_IAM_IDENTITY_CENTER_ACCESS_PORTAL_URL"
+  "sso_start_url": "https://d-906660e47a.awsapps.com/start"
 }
