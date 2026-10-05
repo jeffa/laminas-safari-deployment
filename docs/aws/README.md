@@ -10,6 +10,9 @@ Actions to the private ECR repository in `us-east-1`.
 - `ecr-publisher-permissions-policy.json` is the inline permissions policy for
   that role. It permits authentication and image pushes only to the
   `laminas-safari` repository.
+- `ecr-puller-permissions-policy.json` is the inline permissions policy for an
+  EC2 instance role. It permits authentication and image pulls only from the
+  `laminas-safari` repository.
 
 The trust policy is limited to the `main` branch of
 `jeffa/laminas-safari-deployment` through GitHub Actions OIDC. The policy files
