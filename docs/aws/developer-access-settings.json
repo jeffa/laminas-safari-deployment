@@ -1,0 +1,10 @@
+{
+  "aws_account_id": "767397722370",
+  "aws_region": "us-east-1",
+  "ecr_repository": "laminas-safari",
+  "ecr_registry": "767397722370.dkr.ecr.us-east-1.amazonaws.com",
+  "permission_set_name": "LaminasDeveloperEcrPull",
+  "aws_cli_profile": "laminas-safari-dev",
+  "sso_session_name": "business-aws",
+  "sso_start_url": "REPLACE_WITH_IAM_IDENTITY_CENTER_ACCESS_PORTAL_URL"
+}
