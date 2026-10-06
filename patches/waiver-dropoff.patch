@@ -1,0 +1,15 @@
+diff --git a/module/Application/src/Model/Resources/WaiverDropoff.php b/module/Application/src/Model/Resources/WaiverDropoff.php
+--- a/module/Application/src/Model/Resources/WaiverDropoff.php
++++ b/module/Application/src/Model/Resources/WaiverDropoff.php
+@@ -314,10 +314,12 @@
+      * Update a waiver from the cart waiver with data from the form
+      * 
+      * @param   array   $data
++     * @param   int     $storeId
++     * @param   int     $custId
+      */
+-    public function updateInfoFromFormData($data)
++    public function updateInfoFromFormData($data, $storeId, $custId)
+     {
+         $this->Waiver = new Ewaiver();
+         // For the main waiver information

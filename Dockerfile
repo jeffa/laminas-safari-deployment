@@ -37,10 +37,12 @@ WORKDIR /var/www/html
 COPY app/ /var/www/html/
 COPY runtime-config/local.php /var/www/html/config/autoload/local.php
 COPY patches/email-smtp.patch /tmp/email-smtp.patch
+COPY patches/waiver-dropoff.patch /tmp/waiver-dropoff.patch
 
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader \
     && patch -p1 < /tmp/email-smtp.patch \
-    && rm -f /tmp/email-smtp.patch \
+    && patch -p1 < /tmp/waiver-dropoff.patch \
+    && rm -f /tmp/email-smtp.patch /tmp/waiver-dropoff.patch \
     && mkdir -p data/cache \
     && ln -s /var/www/html/module/Application/src/Controller/Helper/PHPMailer /var/www/html/PHPMailer \
     && ln -s /var/www/html/assets /var/www/html/public/assets \

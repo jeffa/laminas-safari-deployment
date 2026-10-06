@@ -4,6 +4,11 @@ $demoMode = getenv('DEMO_MODE');
 $demoMode = $demoMode === false ? '1' : $demoMode;
 $configuredBasePath = trim((string) (getenv('APP_BASE_PATH') ?: ''), '/');
 $basePath = $configuredBasePath === '' ? '/' : "/{$configuredBasePath}/";
+$publicPath = $configuredBasePath === '' ? '' : "/{$configuredBasePath}";
+$secureBaseUrl = rtrim((string) (getenv('SECURE_BASE_URL') ?: ''), '/');
+$mercuryCheckoutFrame = rtrim((string) (getenv('MERCURY_CHECKOUT_FRAME') ?: ''), '/');
+$mercurySite = (string) (getenv('MERCURY_SITE') ?: '');
+$mercuryTransSite = (string) (getenv('MERCURY_TRANS_SITE') ?: '');
 
 if (!defined('DEMO_MODE')) {
     define(
@@ -31,6 +36,36 @@ foreach ($legacyConstants as $constantName) {
     if (!defined($constantName)) {
         define($constantName, getenv($constantName) ?: '');
     }
+}
+
+if (!defined('SECURE_BASE_URL')) {
+    define('SECURE_BASE_URL', $secureBaseUrl);
+}
+
+if (!defined('MERCURY_CHECKOUT_FRAME')) {
+    define('MERCURY_CHECKOUT_FRAME', $mercuryCheckoutFrame);
+}
+
+if (!defined('MercurySite')) {
+    define('MercurySite', $mercurySite);
+}
+
+if (!defined('MercuryTransSite')) {
+    define('MercuryTransSite', $mercuryTransSite);
+}
+
+if (!defined('MERCURY_COMPLETE_URL')) {
+    define(
+        'MERCURY_COMPLETE_URL',
+        rtrim($secureBaseUrl . $publicPath, '/') . '/payment/complete'
+    );
+}
+
+if (!defined('MERCURY_ERROR_URL')) {
+    define(
+        'MERCURY_ERROR_URL',
+        rtrim($secureBaseUrl . $publicPath, '/') . '/payment/error'
+    );
 }
 
 return [
