@@ -1,15 +1,39 @@
 diff --git a/module/Application/src/Model/Resources/WaiverDropoff.php b/module/Application/src/Model/Resources/WaiverDropoff.php
 --- a/module/Application/src/Model/Resources/WaiverDropoff.php
 +++ b/module/Application/src/Model/Resources/WaiverDropoff.php
-@@ -314,10 +314,12 @@
-      * Update a waiver from the cart waiver with data from the form
-      * 
-      * @param   array   $data
-+     * @param   int     $storeId
-+     * @param   int     $custId
-      */
--    public function updateInfoFromFormData($data)
-+    public function updateInfoFromFormData($data, $storeId, $custId)
+@@ -323,4 +323,4 @@
+     public function updateInfoFromFormData($data, $storeId, $custId)
      {
-         $this->Waiver = new Ewaiver();
+-        $this->Waiver = new Ewaiver();
++        $this->createNewWaiver($storeId);
          // For the main waiver information
+@@ -327,3 +327,3 @@
+         $this->Waiver->fk_store_id = $storeId;
+-        $this->Waiver->waiver_type = 5;
++        $this->Waiver->waiver_type = 2;
+         $this->Waiver->accept_terms = true;
+@@ -349,4 +349,4 @@
+         } else {
+             // Need to add a minor
+-            $this->Minors[] = new EwaiverCampMinor();
++            $this->Minors[] = new EwaiverDropoffMinor();
+         }
+@@ -471,10 +471,10 @@
+     private function getNewExpireDate()
+     {
+         $endDate = $this->getStartDate();
+-        if ($endDate == '0000-00-00') $endDate = date('y-M-d');
++        if ($endDate == '0000-00-00') $endDate = date('Y-m-d');
+         // For the expiration date, set to 12/31 of the following year
+         $exDate = date_create_from_format('Y-m-d', $endDate);
+         $y = (int) $exDate->format('Y');
+         $y += 1;
+         $newExpDate = $y.'-12-31';
+         return $newExpDate;
+     }
+diff --git a/module/Application/src/Controller/CartController.php b/module/Application/src/Controller/CartController.php
+--- a/module/Application/src/Controller/CartController.php
++++ b/module/Application/src/Controller/CartController.php
+@@ -1671,1 +1671,1 @@
+-                        if ($minor->first_name == $data['fitFirst_0'] && $minor->last_name == $data['fitLast_0']) {
++                        if ($minor->first_name == $data['camperFirst_0'] && $minor->last_name == $data['camperLast_0']) {

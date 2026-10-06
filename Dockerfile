@@ -44,6 +44,8 @@ RUN composer install --no-interaction --prefer-dist --optimize-autoloader \
     && patch -p1 < /tmp/waiver-dropoff.patch \
     && rm -f /tmp/email-smtp.patch /tmp/waiver-dropoff.patch \
     && mkdir -p data/cache \
+    && mkdir -p data/documents/waivers public/data \
+    && ln -s /var/www/html/data/documents /var/www/html/public/data/documents \
     && ln -s /var/www/html/module/Application/src/Controller/Helper/PHPMailer /var/www/html/PHPMailer \
     && ln -s /var/www/html/assets /var/www/html/public/assets \
     && chown -R www-data:www-data /var/www/html

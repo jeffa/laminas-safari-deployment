@@ -68,6 +68,28 @@ if (!defined('MERCURY_ERROR_URL')) {
     );
 }
 
+// Temporary deployment mapping for the legacy document paths used by waivers.
+if (!defined('DOCUMENT_ROOT_DIR')) {
+    define('DOCUMENT_ROOT_DIR', '/var/www/html/data/documents');
+}
+
+if (!defined('WAIVERS_ROOT_DIR')) {
+    define('WAIVERS_ROOT_DIR', DOCUMENT_ROOT_DIR . '/waivers');
+}
+
+if (!defined('PATH_TO_WAIVERS')) {
+    define('PATH_TO_WAIVERS', '/data/documents/waivers');
+}
+
+// Temporary deployment mapping for legacy PDF asset paths.
+if (!defined('ROOT_PATH')) {
+    define('ROOT_PATH', '/var/www/html/public');
+}
+
+if (!defined('PATH_TO_IMAGE_FILES')) {
+    define('PATH_TO_IMAGE_FILES', '/images/safari');
+}
+
 return [
     'view_manager' => [
         'base_path' => $basePath,
