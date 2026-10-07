@@ -37,3 +37,44 @@ diff --git a/module/Application/src/Controller/CartController.php b/module/Appli
 @@ -1671,1 +1671,1 @@
 -                        if ($minor->first_name == $data['fitFirst_0'] && $minor->last_name == $data['fitLast_0']) {
 +                        if ($minor->first_name == $data['camperFirst_0'] && $minor->last_name == $data['camperLast_0']) {
+diff --git a/module/Application/src/Model/Resources/WaiverAdultClass.php b/module/Application/src/Model/Resources/WaiverAdultClass.php
+--- a/module/Application/src/Model/Resources/WaiverAdultClass.php
++++ b/module/Application/src/Model/Resources/WaiverAdultClass.php
+@@ -387,1 +387,1 @@
+-        $this->Minors[0]->emergency_phone = $data['fitAltPhone0_0'];
++        $this->Minors[0]->emergency_phone = $data['fitAltPhone_0'];
+diff --git a/module/Application/src/Model/Resources/WaiverAdultClass.php b/module/Application/src/Model/Resources/WaiverAdultClass.php
+--- a/module/Application/src/Model/Resources/WaiverAdultClass.php
++++ b/module/Application/src/Model/Resources/WaiverAdultClass.php
+@@ -254,1 +254,1 @@
+-        $minor->emergency_phone = $comWaiver->_emergency_phone;
++        $minor->emergency_phone = $comWaiver->emergency_phone;
+@@ -289,3 +289,3 @@
+-        $this->AdultClass->accept_voluntary = $comWaiver->accept_voluntary;
+-        $this->AdultClass->accept_liability = $comWaiver->accept_liability;
+-        $this->AdultClass->how_heard = $comWaiver->how_heard;
++        $this->AdultClass->accept_voluntary = $existingWaiver->AdultClass->accept_voluntary;
++        $this->AdultClass->accept_liability = $existingWaiver->AdultClass->accept_liability;
++        $this->AdultClass->how_heard = $existingWaiver->AdultClass->how_heard;
+diff --git a/module/Application/src/Model/Resources/WaiverCamp.php b/module/Application/src/Model/Resources/WaiverCamp.php
+--- a/module/Application/src/Model/Resources/WaiverCamp.php
++++ b/module/Application/src/Model/Resources/WaiverCamp.php
+@@ -447,1 +447,1 @@
+-        $this->Waiver = new Ewaiver();
++        $this->createNewWaiver($storeId);
+@@ -468,2 +468,3 @@
+         // Need authorized people $AuthPeople
++        $this->AuthPeople = [];
+         $indices = [0, 1, 3];
+diff --git a/module/Application/src/Model/Resources/WaiverCamp.php b/module/Application/src/Model/Resources/WaiverCamp.php
+--- a/module/Application/src/Model/Resources/WaiverCamp.php
++++ b/module/Application/src/Model/Resources/WaiverCamp.php
+@@ -612,1 +612,1 @@
+-        if ($endDate == '0000-00-00') $endDate = date('y-M-d');
++        if ($endDate == '0000-00-00') $endDate = date('Y-m-d');
+diff --git a/module/Application/src/Controller/CartController.php b/module/Application/src/Controller/CartController.php
+--- a/module/Application/src/Controller/CartController.php
++++ b/module/Application/src/Controller/CartController.php
+@@ -1654,1 +1654,1 @@
+-                        if ($minor->first_name == $data['fitFirst_0'] && $minor->last_name == $data['fitLast_0']) {
++                        if ($minor->first_name == $data['camperFirst_0'] && $minor->last_name == $data['camperLast_0']) {
