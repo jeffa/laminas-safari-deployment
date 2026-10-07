@@ -1,0 +1,37 @@
+diff --git a/module/Application/src/Model/Resources/WaiverAdultClass.php b/module/Application/src/Model/Resources/WaiverAdultClass.php
+--- a/module/Application/src/Model/Resources/WaiverAdultClass.php
++++ b/module/Application/src/Model/Resources/WaiverAdultClass.php
+@@ -368,4 +368,4 @@
+         $this->Minors[0]->has_allergies =
+-            isset($data['has_allergies']) && $data['has_allergies'] === 'on';
++            isset($data['hasAllergies_0']) && $data['hasAllergies_0'] === 'on';
+         $this->Minors[0]->has_disabilities =
+-            isset($data['has_disabilities']) && $data['has_disabilities'] === 'on';
++            isset($data['hasCondition_0']) && $data['hasCondition_0'] === 'on';
+@@ -374,1 +374,1 @@
+-        $this->Minors[0]->general_info = $data['general_info'] ?? '';
++        $this->Minors[0]->general_info = '';
+diff --git a/module/Application/src/Model/Resources/WaiverChildClass.php b/module/Application/src/Model/Resources/WaiverChildClass.php
+--- a/module/Application/src/Model/Resources/WaiverChildClass.php
++++ b/module/Application/src/Model/Resources/WaiverChildClass.php
+@@ -365,4 +365,4 @@
+         $this->Minors[0]->has_allergies =
+-            isset($data['has_allergies']) && $data['has_allergies'] === 'on';
++            isset($data['hasAllergies_0']) && $data['hasAllergies_0'] === 'on';
+         $this->Minors[0]->has_disabilities =
+-            isset($data['has_disabilities']) && $data['has_disabilities'] === 'on';
++            isset($data['hasCondition_0']) && $data['hasCondition_0'] === 'on';
+diff --git a/module/Application/src/Model/Resources/WaiverCamp.php b/module/Application/src/Model/Resources/WaiverCamp.php
+--- a/module/Application/src/Model/Resources/WaiverCamp.php
++++ b/module/Application/src/Model/Resources/WaiverCamp.php
+@@ -507,2 +507,2 @@
+         $this->Minors[0]->has_allergies =
+-            isset($data['has_allergies']) && $data['has_allergies'] === 'on';
++            isset($data['hasAllergies_0']) && $data['hasAllergies_0'] === 'on';
+diff --git a/module/Application/src/Model/Resources/WaiverDropoff.php b/module/Application/src/Model/Resources/WaiverDropoff.php
+--- a/module/Application/src/Model/Resources/WaiverDropoff.php
++++ b/module/Application/src/Model/Resources/WaiverDropoff.php
+@@ -359,2 +359,2 @@
+         $this->Minors[0]->has_allergies =
+-            isset($data['has_allergies']) && $data['has_allergies'] === 'on';
++            isset($data['hasAllergies_0']) && $data['hasAllergies_0'] === 'on';
