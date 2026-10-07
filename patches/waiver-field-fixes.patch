@@ -1,0 +1,65 @@
+diff --git a/module/Application/src/Model/Resources/WaiverAdultClass.php b/module/Application/src/Model/Resources/WaiverAdultClass.php
+--- a/module/Application/src/Model/Resources/WaiverAdultClass.php
++++ b/module/Application/src/Model/Resources/WaiverAdultClass.php
+@@ -368,5 +368,2 @@
+-        if (array_key_exists('has_allergies', $data)) {
+-            $this->Minors[0]->has_allergies = true;
+-        } else {
+-            $this->Minors[0]->has_allergies = false;
+-        }
++        $this->Minors[0]->has_allergies =
++            isset($data['has_allergies']) && $data['has_allergies'] === 'on';
+@@ -373,5 +370,2 @@
+-        if (array_key_exists('has_disabilities', $data)) {
+-            $this->Minors[0]->has_disabilities = true;
+-        } else {
+-            $this->Minors[0]->has_disabilities = false;
+-        }
++        $this->Minors[0]->has_disabilities =
++            isset($data['has_disabilities']) && $data['has_disabilities'] === 'on';
+@@ -380,1 +374,1 @@
+-        $this->Minors[0]->general_info = '';
++        $this->Minors[0]->general_info = $data['general_info'] ?? '';
+@@ -451,1 +445,1 @@
+-        if ($endDate == '0000-00-00') $endDate = date('y-M-d');
++        if ($endDate == '0000-00-00') $endDate = date('Y-m-d');
+diff --git a/module/Application/src/Model/Resources/WaiverChildClass.php b/module/Application/src/Model/Resources/WaiverChildClass.php
+--- a/module/Application/src/Model/Resources/WaiverChildClass.php
++++ b/module/Application/src/Model/Resources/WaiverChildClass.php
+@@ -365,10 +365,4 @@
+-        if (array_key_exists('has_allergies', $data)) {
+-            $this->Minors[0]->has_allergies = true;
+-        } else {
+-            $this->Minors[0]->has_allergies = false;
+-        }
+-        if (array_key_exists('has_disabilities', $data)) {
+-            $this->Minors[0]->has_disabilities = true;
+-        } else {
+-            $this->Minors[0]->has_disabilities = false;
+-        }
++        $this->Minors[0]->has_allergies =
++            isset($data['has_allergies']) && $data['has_allergies'] === 'on';
++        $this->Minors[0]->has_disabilities =
++            isset($data['has_disabilities']) && $data['has_disabilities'] === 'on';
+diff --git a/module/Application/src/Model/Resources/WaiverCamp.php b/module/Application/src/Model/Resources/WaiverCamp.php
+--- a/module/Application/src/Model/Resources/WaiverCamp.php
++++ b/module/Application/src/Model/Resources/WaiverCamp.php
+@@ -507,5 +507,2 @@
+-        if (array_key_exists('has_allergies', $data)) {
+-            $this->Minors[0]->has_allergies = true;
+-        } else {
+-            $this->Minors[0]->has_allergies = false;
+-        }
++        $this->Minors[0]->has_allergies =
++            isset($data['has_allergies']) && $data['has_allergies'] === 'on';
+diff --git a/module/Application/src/Model/Resources/WaiverDropoff.php b/module/Application/src/Model/Resources/WaiverDropoff.php
+--- a/module/Application/src/Model/Resources/WaiverDropoff.php
++++ b/module/Application/src/Model/Resources/WaiverDropoff.php
+@@ -359,5 +359,2 @@
+-        if (array_key_exists('has_allergies', $data)) {
+-            $this->Minors[0]->has_allergies = true;
+-        } else {
+-            $this->Minors[0]->has_allergies = false;
+-        }
++        $this->Minors[0]->has_allergies =
++            isset($data['has_allergies']) && $data['has_allergies'] === 'on';
