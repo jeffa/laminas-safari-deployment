@@ -14,7 +14,6 @@ RUN apt-get update \
         libxml2-dev \
         libzip-dev \
         ca-certificates \
-        patch \
         unzip \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j"$(nproc)" \
@@ -36,13 +35,8 @@ COPY apache-vhost.conf /etc/apache2/sites-available/000-default.conf
 WORKDIR /var/www/html
 COPY app/ /var/www/html/
 COPY runtime-config/local.php /var/www/html/config/autoload/local.php
-COPY patches/email-smtp.patch /tmp/email-smtp.patch
-COPY patches/waiver-dropoff.patch /tmp/waiver-dropoff.patch
 
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader \
-    && patch -p1 < /tmp/email-smtp.patch \
-    && patch -p1 < /tmp/waiver-dropoff.patch \
-    && rm -f /tmp/email-smtp.patch /tmp/waiver-dropoff.patch \
     && mkdir -p data/cache \
     && mkdir -p data/documents/waivers public/data \
     && ln -s /var/www/html/data/documents /var/www/html/public/data/documents \
