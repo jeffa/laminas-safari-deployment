@@ -11,6 +11,11 @@ proposal, is deferred to a separate project. The current focus is milestone 5:
 the production-ready image and controlled Integration-to-Production release
 path.
 
+Before milestone 5 consumes the new private Laminas source repository, complete
+the [Source Repository Readiness](SOURCE_REPOSITORY_READINESS.md) prerequisite.
+It captures the remaining CAPTCHA, payment-mode, environment URL, runtime
+contract, filesystem, Composer, and database-privacy decisions.
+
 The existing workflow has been tested successfully from a clean start:
 
 1. Terraform provisions the EC2 instance.
