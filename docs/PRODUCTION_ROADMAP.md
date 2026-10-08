@@ -6,8 +6,10 @@ The current EC2/Docker Compose deployment is a successful baseline. The next sta
 
 ## Current milestone
 
-Milestones 1 through 4 are complete. The current focus is milestone 5:
-developer sandboxes and a separate Integration environment.
+Milestones 1 through 4 are complete. Milestone 4A, the developer-sandbox
+proposal, is deferred to a separate project. The current focus is milestone 5:
+the production-ready image and controlled Integration-to-Production release
+path.
 
 The existing workflow has been tested successfully from a clean start:
 

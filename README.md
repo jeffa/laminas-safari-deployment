@@ -4,9 +4,10 @@ Container build and deployment configuration for the Laminas Safari application.
 
 ## Project status
 
-Milestones 1 through 4 are complete. The current focus is milestone 5:
-repeatable developer Docker Desktop sandboxes and a separate Integration
-environment. See [Milestone History](docs/MILESTONE_HISTORY.md) for the complete
+Milestones 1 through 4 are complete. Milestone 4A, the developer-environment
+proposal, is deferred to a separate project. The current focus is milestone 5:
+a production-ready image and controlled Integration-to-Production release
+path. See [Milestone History](docs/MILESTONE_HISTORY.md) for the complete
 before-and-after record and [Archive Inventory](docs/ARCHIVE_INVENTORY.md) for
 historical patches and local-only material.
 

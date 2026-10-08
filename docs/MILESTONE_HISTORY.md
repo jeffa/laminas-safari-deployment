@@ -330,58 +330,62 @@ be accidentally copied into GitHub, a laptop, or an EC2 filesystem.
 - [Developer AWS access setup](DEVELOPER_AWS_ACCESS_SETUP.md)
 - [Developer Docker Desktop setup](DEVELOPER_DOCKER_DESKTOP_SETUP.md)
 
-## Milestone 5: Developer sandboxes and Integration environment
+## Milestone 4A: Developer-environment proposal — deferred
 
-This is the next platform milestone. Milestone 4A was an enabling workstream,
-not a replacement milestone. It covered repository ownership, developer AWS
-access, Docker Desktop onboarding, secret handling, and application fixes that
-needed to be resolved before the broader team workflow could begin.
+After milestone 4, a developer-sandbox workstream was proposed. It was not
+implemented in this project. The AWS access and Docker Desktop documents are
+research and onboarding material, not evidence that a complete editable
+developer environment exists.
+
+The developer sandbox should be implemented as a separate project so that its
+source-mounting, local database, IDE, and onboarding concerns do not blur the
+production image and release workflow.
+
+## Milestone 5: Production-ready image and release path
+
+This project’s next milestone is to make the immutable image and its deployment
+path ready for controlled Integration and Production use.
 
 ### Target state
 
-Each developer can run an isolated copy of the approved application image in
-Docker Desktop with controlled development data. A separate Integration
-environment can run an approved image and database snapshot for complete
-workflow testing before Production.
+This project should build and publish a traceable multi-architecture image,
+provide environment-safe runtime configuration, and support an Integration
+deployment that can be promoted to Production after approval.
 
 ### Planned workflow
 
 ```text
-Developer sandbox
+Reviewed application source
         |
         v
-Code review and image build
+Immutable multi-architecture image in ECR
         |
         v
-Integration environment
+Integration deployment and smoke test
         |
         v
-Production release
+Approved Production deployment
 ```
 
-The sandbox and Integration environment must use separate credentials from
-Production. The Integration environment is the proving ground for database
-changes, email, uploads, and complete browser workflows.
+The separate developer-environment project may consume the approved ECR image,
+but it will own the editable source workflow and local developer experience.
 
 ### Completion criteria
 
-- A new developer can obtain read-only ECR access through IAM Identity Center.
-- The Docker Desktop onboarding guide works on macOS and Windows 11.
-- A developer can pull an approved multi-architecture image and start the
-  local stack without building the application image.
-- Controlled database data and local runtime configuration are supplied without
-  committing secrets.
-- An Integration server can pull a specific image tag and restore approved test
-  data.
-- The team has a documented smoke test and an owner-approved path from
-  Integration to Production.
+- The current source fixes are included directly in the image build.
+- The image is published to private ECR under an immutable deployment commit
+  SHA.
+- Integration can pull a selected image and use controlled test data.
+- Runtime secrets are supplied outside the image and source repository.
+- Health checks, email, database connectivity, and important browser workflows
+  are tested before Production approval.
+- The previous known-good image can be identified for rollback.
 
-### Relevant files
+### Related but separate project
 
 - [Developer AWS access setup](DEVELOPER_AWS_ACCESS_SETUP.md)
 - [Developer Docker Desktop setup](DEVELOPER_DOCKER_DESKTOP_SETUP.md)
 - [Owner proposal](OWNER_PROPOSAL.md)
-- [Environment questionnaire](ENVIRONMENT.md)
 
 ## What remains beyond milestone 5
 
