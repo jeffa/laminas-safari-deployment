@@ -14,9 +14,11 @@ Actions to the private ECR repository in `us-east-1`.
   EC2 instance role. It permits authentication and image pulls only from the
   `laminas-safari` repository.
 
-The trust policy is limited to the `main` branch of
-`jeffa/laminas-safari-deployment` through GitHub Actions OIDC. The policy files
-contain account and repository identifiers, not credentials or secrets.
+The trust policy is limited to the `main` branch of the configured
+`laminas-safari-deployment` repository through GitHub Actions OIDC. After a
+repository transfer, update the owner in the trust-policy JSON and in AWS.
+The policy files contain account and repository identifiers, not credentials or
+secrets.
 
 If the AWS account, repository, GitHub owner, repository name, or allowed branch
 changes, update these documents before recreating the role.

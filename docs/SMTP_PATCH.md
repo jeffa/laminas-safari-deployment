@@ -1,4 +1,8 @@
-# SMTP Deployment Patch
+# SMTP Fix History and Legacy Patch Runbook
+
+The SMTP fix has been merged into the application source and verified in DEV.
+The current Docker image uses that source directly; it no longer applies this
+patch during the image build.
 
 ## Why this patch is needed
 
@@ -20,7 +24,8 @@ security groups, credentials, and cPanel delivery were not the cause.
 
 ## What the patch changes
 
-`patches/email-smtp.patch` currently:
+The historical patch changed `ModelPhpMailer.php` and `ModelAccounts.php` so
+the application would:
 
 1. Reads the SMTP host, port, and encryption mode from environment constants.
 2. Supports port `465`/implicit SSL and STARTTLS configurations.
@@ -31,16 +36,18 @@ Verbose SMTP transcript logging was used during diagnosis and has been removed.
 Do not enable it in a normal deployment because message bodies may contain reset
 links and tokens.
 
-## How the Docker build applies it
+## Current image-build behavior
 
-The Dockerfile copies the patch into the build context and applies it after the
-application source is installed:
+The Dockerfile now installs the already-corrected application source directly.
+It does not copy or apply `patches/email-smtp.patch`:
 
 ```sh
-patch -p1 < /tmp/email-smtp.patch
+composer install --no-interaction --prefer-dist --optimize-autoloader
 ```
 
-The patch can be validated against the source archive without modifying the
+### Historical patch validation
+
+For a legacy source archive, the patch can be validated without modifying the
 working tree:
 
 ```sh
@@ -49,7 +56,7 @@ tar -xzf input/laminas-app.tar.gz -C "$tmp_dir" --strip-components=1
 (cd "$tmp_dir" && patch --dry-run -p1 < "$OLDPWD/patches/email-smtp.patch")
 ```
 
-To rebuild the Compose application image:
+To rebuild a Compose application image from the corrected source:
 
 ```sh
 docker compose -f compose.yaml -f compose.build.yaml build app
@@ -59,13 +66,21 @@ docker compose up -d app
 SMTP credentials must come from the environment or `.env`; they must not be
 stored in this document, the patch, the Docker image, or source control.
 
-## Follow-up work
+## Completed rollout status
 
-This is a deployment-side patch on the experimental SMTP branch. The confirmed
-connection fix should be applied and tested in the existing DEV application
-source before the next production deployment cycle. Once the source contains
-the fix, remove the corresponding hunk from `patches/email-smtp.patch` and keep
-only any deployment-specific configuration that remains necessary.
+The source fix was applied to DEV, syntax-checked, and tested with the complete
+forgot-password workflow. The password-reset email arrived, the reset link
+worked, and login with the new password succeeded.
+
+The deployment project then merged the fix into `master`, and the Docker build
+was changed to stop applying the duplicate patch. Production rollout remains a
+separate release approval and verification task.
+
+## Legacy source application procedure
+
+The remainder of this document is retained for a legacy DEV checkout that does
+not yet contain the source commit. Do not use it for the current source or
+current image.
 
 ## Applying the fix to the existing DEV source
 

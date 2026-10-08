@@ -36,10 +36,11 @@ administrator:
    input/horsesns_safari-dev.sql.gz
    ```
 
-3. The current approved image tag. The first known-good tag is:
+3. The current approved image tag, supplied by the project maintainer. Image
+   tags are the full Git commit SHA of the deployment project. For example:
 
    ```text
-   55489eae6729625304a3fb411226624c0fa0a5ab
+   <deployment-project-commit-sha>
    ```
 
 Do not request or copy production passwords, SMTP credentials, CAPTCHA secrets,

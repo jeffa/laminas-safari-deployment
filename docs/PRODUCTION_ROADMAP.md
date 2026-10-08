@@ -6,7 +6,10 @@ The current EC2/Docker Compose deployment is a successful baseline. The next sta
 
 ## Current milestone
 
-The following workflow has been tested successfully from a clean start:
+Milestones 1 through 4 are complete. The current focus is milestone 5:
+developer sandboxes and a separate Integration environment.
+
+The existing workflow has been tested successfully from a clean start:
 
 1. Terraform provisions the EC2 instance.
 2. Ansible provisions Docker and Docker Compose support.
@@ -17,14 +20,15 @@ The following workflow has been tested successfully from a clean start:
 
 This should be preserved as the known-good development baseline before introducing production infrastructure.
 
-## Experimental SMTP branch follow-up
+## Completed SMTP and waiver rollout
 
-The deployment patch now sends password-reset mail successfully through cPanel SMTP. Before merging this branch:
+The SMTP and waiver corrections have been merged into the application source,
+tested in DEV, and included in the current image build:
 
-- [ ] Apply the confirmed PHPMailer connection fix to the Laminas application source in DEV.
-- [ ] Validate password-reset delivery in DEV using the source change.
-- [ ] Remove the corresponding deployment patch hunk after the source change is released.
-- [ ] Include the validated email change in the next production deployment cycle.
+- [x] Apply the PHPMailer connection fix to the Laminas application source in DEV.
+- [x] Validate password-reset delivery in DEV using the source change.
+- [x] Remove patch application from the Docker image build.
+- [ ] Include the validated email and waiver changes in the next Production deployment cycle.
 
 ## Phase 1: Freeze the working baseline
 
@@ -56,9 +60,11 @@ Treat the following as separate deliverables:
 
 This separation makes it possible to reuse the same application image in several environments without rebuilding the entire server.
 
-## Phase 3: Publish the application image to ECR
+## Phase 3: Publish the application image to ECR — complete
 
-The current Dockerfile should become the source for an immutable application image. Build the image in CI or on a controlled build host, then push it to a private Amazon ECR repository. ECR supports Docker and OCI image publishing:
+The Dockerfile is now used to build immutable application images in GitHub
+Actions. Images are published to the private Amazon ECR repository for both
+architectures. ECR supports Docker and OCI image publishing:
 
 - [Pushing a Docker image to Amazon ECR](https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-push-ecr-image.html)
 
@@ -72,7 +78,8 @@ laminas-app:production
 
 Production deployments should use the commit-specific tag rather than relying on a floating `latest` tag.
 
-The EC2 deployment should eventually pull the selected image from ECR instead of building the image directly on the instance.
+EC2 and developer Docker Desktop deployments pull the selected image from ECR
+instead of building the image directly on the instance.
 
 ## Phase 4: Move secrets into managed storage
 
@@ -233,15 +240,16 @@ Database schema changes should be handled separately from application image depl
 
 ## Recommended immediate next steps
 
-The next practical milestones are:
+The next practical steps are:
 
-1. Commit and tag the current successful deployment.
-2. Document the exact known-good Terraform, Ansible, Compose, and wrapper versions.
-3. Create a private ECR repository.
-4. Modify the deployment to pull a tagged image from ECR.
-5. Add a small deployment smoke test for the home page, assets, database connection, and health endpoint.
-6. Inventory all writable application paths.
-7. Design the RDS migration.
-8. Add ALB and HTTPS after the application can run correctly without local MariaDB state or local uploaded files.
+1. Complete the Docker Desktop developer smoke test with the current image.
+2. Document the exact approved image tag and database snapshot.
+3. Onboard the first developer using read-only ECR access.
+4. Provision a separate Integration server that pulls an approved image.
+5. Add a repeatable Integration smoke test for the home page, assets, database
+   connection, email, and health endpoint.
+6. Inventory all writable application paths before considering multiple
+   application instances.
+7. Design the RDS, managed-secret, ALB, and HTTPS migration work.
 
 The most important architectural rule is: **do not attempt multiple production application copies until the database, sessions, uploads, and other writable state are shared or externalized.**

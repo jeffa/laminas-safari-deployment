@@ -127,17 +127,24 @@ The waiver patch fixes application logic and data-flow defects. It is unrelated 
 
 The SMTP patch adds diagnostics and environment-aware mail configuration so that SMTP failures are visible and the configured host, port, and encryption mode are used correctly.
 
-These changes should be reviewed, applied, and tested independently.
+These changes were reviewed, applied, and tested independently. They are now
+part of the canonical application source and are no longer applied by the
+Docker image build.
 
 ## Follow-up actions
 
-1. Backend coder reviews `patches/waiver-dropoff.patch` and this post-mortem.
-2. Apply the waiver correction to DEV using `docs/WAIVER_PATCH_DEV_RUNBOOK.md`.
-3. Repeat the six workflow tests in DEV.
-4. Consolidate the approved changes into the canonical application source archive.
-5. Remove the temporary deployment patch only after the refreshed source archive contains the corrections.
-6. Apply and test the SMTP patch separately.
-7. Before future releases, maintain at least one active test record for each major waiver type.
+1. The backend coder reviewed the waiver correction and its test results.
+2. The waiver correction was applied to DEV and the six workflow tests were
+   repeated.
+3. The approved changes were consolidated into the canonical application
+   source archive.
+4. The SMTP patch was applied and tested separately.
+5. The duplicate patch application was removed from the Docker image build.
+6. Before future releases, maintain at least one active test record for each
+   major waiver type when practical.
+
+The separate KNO frontend wording and field cleanup remains a later task. It is
+not part of the completed waiver persistence correction or SMTP fix.
 
 ## Closing observation
 

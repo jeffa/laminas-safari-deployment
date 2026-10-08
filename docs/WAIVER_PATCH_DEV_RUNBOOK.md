@@ -1,8 +1,11 @@
-# Waiver Patch — DEV Application Runbook
+# Waiver Patch — Historical DEV Application Runbook
 
-This runbook applies the confirmed waiver corrections to the existing DEV application source.
+The waiver corrections described here have been merged into the application
+source, tested in DEV, and included in the current image build. This document
+is retained as a historical procedure for a legacy DEV checkout only.
 
-Apply this waiver patch first. Do not apply the SMTP/email patch at the same time.
+Do not apply this patch to the current source or current image. Do not apply it
+over the already-merged source changes.
 
 ## What this patch corrects
 
@@ -118,15 +121,11 @@ git revert HEAD
 
 Do not use a destructive reset on shared DEV without the backend coder’s agreement.
 
-## After successful DEV review
+## Historical completion record
 
-Once the backend coder approves the source changes and testing passes:
+The following work was completed during the original rollout:
 
-1. Obtain a fresh application source archive containing the reviewed changes.
-2. Replace the local ignored `input/laminas-app.tar.gz` payload.
-3. Confirm the deployment-only waiver patch is no longer needed.
-4. Remove the waiver patch application from the deployment image.
-5. Perform a clean EC2 build and final smoke test.
-
-Only then should the temporary deployment patch be removed from this project.
-
+1. The reviewed source was included in a fresh application archive.
+2. The deployment-only waiver patch was removed from the image build.
+3. A clean EC2 build and browser smoke test succeeded.
+4. KNO, Child Fitness, Adult Fitness, and Season Camp workflows were tested.

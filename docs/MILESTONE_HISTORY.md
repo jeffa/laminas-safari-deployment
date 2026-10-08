@@ -330,11 +330,64 @@ be accidentally copied into GitHub, a laptop, or an EC2 filesystem.
 - [Developer AWS access setup](DEVELOPER_AWS_ACCESS_SETUP.md)
 - [Developer Docker Desktop setup](DEVELOPER_DOCKER_DESKTOP_SETUP.md)
 
-## What is deliberately still unfinished
+## Milestone 5: Developer sandboxes and Integration environment
 
-These milestones produced a working and repeatable image workflow, but they did
-not yet create a complete production platform. The current design still has
-important boundaries:
+This is the next platform milestone. Milestone 4A was an enabling workstream,
+not a replacement milestone. It covered repository ownership, developer AWS
+access, Docker Desktop onboarding, secret handling, and application fixes that
+needed to be resolved before the broader team workflow could begin.
+
+### Target state
+
+Each developer can run an isolated copy of the approved application image in
+Docker Desktop with controlled development data. A separate Integration
+environment can run an approved image and database snapshot for complete
+workflow testing before Production.
+
+### Planned workflow
+
+```text
+Developer sandbox
+        |
+        v
+Code review and image build
+        |
+        v
+Integration environment
+        |
+        v
+Production release
+```
+
+The sandbox and Integration environment must use separate credentials from
+Production. The Integration environment is the proving ground for database
+changes, email, uploads, and complete browser workflows.
+
+### Completion criteria
+
+- A new developer can obtain read-only ECR access through IAM Identity Center.
+- The Docker Desktop onboarding guide works on macOS and Windows 11.
+- A developer can pull an approved multi-architecture image and start the
+  local stack without building the application image.
+- Controlled database data and local runtime configuration are supplied without
+  committing secrets.
+- An Integration server can pull a specific image tag and restore approved test
+  data.
+- The team has a documented smoke test and an owner-approved path from
+  Integration to Production.
+
+### Relevant files
+
+- [Developer AWS access setup](DEVELOPER_AWS_ACCESS_SETUP.md)
+- [Developer Docker Desktop setup](DEVELOPER_DOCKER_DESKTOP_SETUP.md)
+- [Owner proposal](OWNER_PROPOSAL.md)
+- [Environment questionnaire](ENVIRONMENT.md)
+
+## What remains beyond milestone 5
+
+Milestones 1 through 4 are complete, and milestone 5 is the current platform
+focus. Even after milestone 5, this will not yet be a complete production
+platform. Important later boundaries remain:
 
 - MariaDB is still a Compose container for development and integration work.
 - Secrets are still supplied through an ignored runtime `.env` during the
