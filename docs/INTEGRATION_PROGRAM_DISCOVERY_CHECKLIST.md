@@ -8,17 +8,6 @@ Laminas application is moved to a new deployment environment. It is not a code
 review or an assignment of responsibility. The questions are designed to
 uncover dependencies before the current host is changed or retired.
 
-## How to introduce the conversation
-
-> We are planning to move the web application to a more repeatable platform.
-> We are not replacing the franchise integration programs immediately. We
-> want to document how they communicate with the application so we can keep
-> them working during the transition and test the new environment safely.
-
-Please answer what is known, mark unknown items as unknown, and identify who
-can verify each answer. Do not place passwords, API keys, private certificates,
-or other secrets in this document.
-
 ## 1. Identify each program
 
 For every integration program, record:
