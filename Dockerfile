@@ -34,6 +34,9 @@ COPY apache-vhost.conf /etc/apache2/sites-available/000-default.conf
 
 WORKDIR /var/www/html
 COPY app/ /var/www/html/
+# Apache serves /var/www/html/public, so the maintenance handler must also be
+# present below that document root when the maintenance rewrite is activated.
+COPY app/maintenance.php /var/www/html/public/maintenance.php
 COPY runtime-config/local.php /var/www/html/config/autoload/local.php
 
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader \
