@@ -1,13 +1,12 @@
 # Franchise Integration Program Discovery Checklist
 
-This checklist is for a conversation with the backend coder about the Visual
-Basic integration programs that run on dedicated computers at franchise
-locations.
+This checklist is for gathering information about the Visual Basic integration
+programs that run on dedicated computers at franchise locations.
 
 The purpose is to understand and preserve their current operation while the
-Laminas application is moved to a new deployment environment. It is not a
-code review and it is not intended to assign blame. The questions are designed
-to uncover dependencies before the current host is changed or retired.
+Laminas application is moved to a new deployment environment. It is not a code
+review or an assignment of responsibility. The questions are designed to
+uncover dependencies before the current host is changed or retired.
 
 ## How to introduce the conversation
 
@@ -53,9 +52,9 @@ Ask:
   computer?
 
 The current Laminas source contains SOAP support and routes named
-`/soap/soap`, `/soap/wsdl`, and `/soap/writewsdl`. The coder should confirm
-which, if any, are used by the franchise programs rather than assuming that
-every SOAP route is still active.
+`/soap/soap`, `/soap/wsdl`, and `/soap/writewsdl`. Confirm which, if any, are
+used by the franchise programs rather than assuming that every SOAP route is
+still active.
 
 ## 3. Document authentication and security
 
@@ -131,8 +130,8 @@ Ask specifically whether the programs depend on:
 - A particular response latency or timeout;
 - The current server's local time zone.
 
-Ask the coder to identify anything that would break if the current host were
-replaced but the public DNS name remained the same.
+Identify anything that would break if the current host were replaced but the
+public DNS name remained the same.
 
 ## 7. Confirm the migration contract
 
