@@ -16,6 +16,10 @@ the [Source Repository Readiness](SOURCE_REPOSITORY_READINESS.md) prerequisite.
 It captures the remaining CAPTCHA, payment-mode, environment URL, runtime
 contract, filesystem, Composer, and database-privacy decisions.
 
+Before selecting the production host, review the [Franchise Integration
+Program Discovery Checklist](INTEGRATION_PROGRAM_DISCOVERY_CHECKLIST.md) so
+the Visual Basic/SOAP integrations remain supported during migration.
+
 The existing workflow has been tested successfully from a clean start:
 
 1. Terraform provisions the EC2 instance.
